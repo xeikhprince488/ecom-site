@@ -10,7 +10,7 @@ const getBaseURL = () => {
   const isDevelopment = process.env.NODE_ENV === 'development';
   return isDevelopment 
     ? "http://localhost:5000"
-    : "https://ecom-site-beta.vercel.app";
+    : "https://ecom-site-j99g.vercel.app";
 };
 
 export const addNewProduct = createAsyncThunk(
