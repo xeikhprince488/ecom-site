@@ -49,8 +49,15 @@ function ProductImageUpload({
     setImageLoadingState(true);
     const data = new FormData();
     data.append("my_file", imageFile);
+    
+    // Use environment variable or configuration for base URL
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const baseURL = isDevelopment 
+      ? "http://localhost:5000"
+      : "https://ecom-site-beta.vercel.app";
+    
     const response = await axios.post(
-      "http://localhost:5000/api/admin/products/upload-image",
+      `${baseURL}/api/admin/products/upload-image`,
       data
     );
     console.log(response, "response");

@@ -6,12 +6,20 @@ const initialState = {
   featureImageList: [],
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 // Fetch feature images
 export const getFeatureImages = createAsyncThunk(
   "/order/getFeatureImages",
   async () => {
+    const baseURL = getBaseURL();
     const response = await axios.get(
-      `http://localhost:5000/api/common/feature/get`
+      `${baseURL}/api/common/feature/get`
     );
     return response.data;
   }
@@ -21,8 +29,9 @@ export const getFeatureImages = createAsyncThunk(
 export const addFeatureImage = createAsyncThunk(
   "/order/addFeatureImage",
   async (image) => {
+    const baseURL = getBaseURL();
     const response = await axios.post(
-      `http://localhost:5000/api/common/feature/add`,
+      `${baseURL}/api/common/feature/add`,
       { image }
     );
     return response.data;
@@ -33,11 +42,12 @@ export const addFeatureImage = createAsyncThunk(
 export const deleteFeatureImage = createAsyncThunk(
   "/order/deleteFeatureImage",
   async (imageId) => {
-    console.log("Delete request for image with ID:", imageId); // Log the image ID
+    const baseURL = getBaseURL();
+    console.log("Delete request for image with ID:", imageId);
     const response = await axios.delete(
-      `http://localhost:5000/api/common/feature/delete/${imageId}`
+      `${baseURL}/api/common/feature/delete/${imageId}`
     );
-    return response.data; // Return the data, which should include the image ID
+    return response.data;
   }
 );
 

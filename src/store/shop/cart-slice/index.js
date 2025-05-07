@@ -6,11 +6,19 @@ const initialState = {
   isLoading: false,
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ userId, productId, quantity }) => {
+    const baseURL = getBaseURL();
     const response = await axios.post(
-      "http://localhost:5000/api/shop/cart/add",
+      `${baseURL}/api/shop/cart/add`,
       {
         userId,
         productId,
@@ -24,8 +32,9 @@ export const addToCart = createAsyncThunk(
 export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
   async (userId) => {
+    const baseURL = getBaseURL();
     const response = await axios.get(
-      `http://localhost:5000/api/shop/cart/get/${userId}`
+      `${baseURL}/api/shop/cart/get/${userId}`
     );
     return response.data;
   }
@@ -34,8 +43,9 @@ export const fetchCartItems = createAsyncThunk(
 export const deleteCartItem = createAsyncThunk(
   "cart/deleteCartItem",
   async ({ userId, productId }) => {
+    const baseURL = getBaseURL();
     const response = await axios.delete(
-      `http://localhost:5000/api/shop/cart/${userId}/${productId}`
+      `${baseURL}/api/shop/cart/${userId}/${productId}`
     );
     return response.data;
   }
@@ -44,8 +54,9 @@ export const deleteCartItem = createAsyncThunk(
 export const updateCartQuantity = createAsyncThunk(
   "cart/updateCartQuantity",
   async ({ userId, productId, quantity }) => {
+    const baseURL = getBaseURL();
     const response = await axios.put(
-      "http://localhost:5000/api/shop/cart/update-cart",
+      `${baseURL}/api/shop/cart/update-cart`,
       {
         userId,
         productId,
@@ -60,8 +71,9 @@ export const updateCartQuantity = createAsyncThunk(
 export const clearCart = createAsyncThunk(
   "cart/clearCart",
   async (userId) => {
+    const baseURL = getBaseURL();
     const response = await axios.delete(
-      `http://localhost:5000/api/shop/cart/clear/${userId}`
+      `${baseURL}/api/shop/cart/clear/${userId}`
     );
     return response.data;
   }

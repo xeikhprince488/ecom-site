@@ -17,7 +17,12 @@ const BankTransferButton = ({ amount, orderID }) => {
     formData.append('transactionReceipt', receiptImage);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/payment/verify-bank-transfer', formData, {
+      const isDevelopment = process.env.NODE_ENV === 'development';
+      const baseURL = isDevelopment 
+        ? "http://localhost:5000"
+        : "https://ecom-site-beta.vercel.app";
+
+      const response = await axios.post(`${baseURL}/api/payment/verify-bank-transfer`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

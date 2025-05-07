@@ -6,11 +6,19 @@ const initialState = {
   orderDetails: null,
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 export const getAllOrdersForAdmin = createAsyncThunk(
   "/order/getAllOrdersForAdmin",
   async () => {
+    const baseURL = getBaseURL();
     const response = await axios.get(
-      `http://localhost:5000/api/admin/orders/get`
+      `${baseURL}/api/admin/orders/get`
     );
 
     return response.data;
@@ -20,8 +28,9 @@ export const getAllOrdersForAdmin = createAsyncThunk(
 export const getOrderDetailsForAdmin = createAsyncThunk(
   "/order/getOrderDetailsForAdmin",
   async (id) => {
+    const baseURL = getBaseURL();
     const response = await axios.get(
-      `http://localhost:5000/api/admin/orders/details/${id}`
+      `${baseURL}/api/admin/orders/details/${id}`
     );
 
     return response.data;
@@ -31,8 +40,9 @@ export const getOrderDetailsForAdmin = createAsyncThunk(
 export const updateOrderStatus = createAsyncThunk(
   "/order/updateOrderStatus",
   async ({ id, orderStatus }) => {
+    const baseURL = getBaseURL();
     const response = await axios.put(
-      `http://localhost:5000/api/admin/orders/update/${id}`,
+      `${baseURL}/api/admin/orders/update/${id}`,
       {
         orderStatus,
       }

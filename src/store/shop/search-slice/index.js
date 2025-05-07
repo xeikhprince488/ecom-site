@@ -6,13 +6,20 @@ const initialState = {
   searchResults: [],
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 export const getSearchResults = createAsyncThunk(
   "/order/getSearchResults",
   async (keyword) => {
+    const baseURL = getBaseURL();
     const response = await axios.get(
-      `http://localhost:5000/api/shop/search/${keyword}`
+      `${baseURL}/api/shop/search/${keyword}`
     );
-
     return response.data;
   }
 );

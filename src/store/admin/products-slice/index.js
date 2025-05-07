@@ -6,11 +6,19 @@ const initialState = {
   productList: [],
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
   async (formData) => {
+    const baseURL = getBaseURL();
     const result = await axios.post(
-      "http://localhost:5000/api/admin/products/add",
+      `${baseURL}/api/admin/products/add`,
       formData,
       {
         headers: {
@@ -26,8 +34,9 @@ export const addNewProduct = createAsyncThunk(
 export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async () => {
+    const baseURL = getBaseURL();
     const result = await axios.get(
-      "http://localhost:5000/api/admin/products/get"
+      `${baseURL}/api/admin/products/get`
     );
 
     return result?.data;
@@ -37,8 +46,9 @@ export const fetchAllProducts = createAsyncThunk(
 export const editProduct = createAsyncThunk(
   "/products/editProduct",
   async ({ id, formData }) => {
+    const baseURL = getBaseURL();
     const result = await axios.put(
-      `http://localhost:5000/api/admin/products/edit/${id}`,
+      `${baseURL}/api/admin/products/edit/${id}`,
       formData,
       {
         headers: {
@@ -54,8 +64,9 @@ export const editProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
+    const baseURL = getBaseURL();
     const result = await axios.delete(
-      `http://localhost:5000/api/admin/products/delete/${id}`
+      `${baseURL}/api/admin/products/delete/${id}`
     );
 
     return result?.data;

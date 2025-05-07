@@ -7,21 +7,25 @@ const initialState = {
   productDetails: null,
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async ({ filterParams, sortParams }) => {
-    console.log(fetchAllFilteredProducts, "fetchAllFilteredProducts");
-
+    const baseURL = getBaseURL();
     const query = new URLSearchParams({
       ...filterParams,
       sortBy: sortParams,
     });
 
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get?${query}`
+      `${baseURL}/api/shop/products/get?${query}`
     );
-
-    console.log(result);
 
     return result?.data;
   }
@@ -30,8 +34,9 @@ export const fetchAllFilteredProducts = createAsyncThunk(
 export const fetchProductDetails = createAsyncThunk(
   "/products/fetchProductDetails",
   async (id) => {
+    const baseURL = getBaseURL();
     const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get/${id}`
+      `${baseURL}/api/shop/products/get/${id}`
     );
 
     return result?.data;

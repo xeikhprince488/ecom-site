@@ -6,23 +6,30 @@ const initialState = {
   reviews: [],
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 export const addReview = createAsyncThunk(
   "/order/addReview",
   async (formdata) => {
+    const baseURL = getBaseURL();
     const response = await axios.post(
-      `http://localhost:5000/api/shop/review/add`,
+      `${baseURL}/api/shop/review/add`,
       formdata
     );
-
     return response.data;
   }
 );
 
 export const getReviews = createAsyncThunk("/order/getReviews", async (id) => {
+  const baseURL = getBaseURL();
   const response = await axios.get(
-    `http://localhost:5000/api/shop/review/${id}`
+    `${baseURL}/api/shop/review/${id}`
   );
-
   return response.data;
 });
 

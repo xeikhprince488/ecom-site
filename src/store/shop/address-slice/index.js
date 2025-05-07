@@ -6,11 +6,19 @@ const initialState = {
   addressList: [],
 };
 
+const getBaseURL = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  return isDevelopment 
+    ? "http://localhost:5000"
+    : "https://ecom-site-beta.vercel.app";
+};
+
 export const addNewAddress = createAsyncThunk(
   "/addresses/addNewAddress",
   async (formData) => {
+    const baseURL = getBaseURL();
     const response = await axios.post(
-      "http://localhost:5000/api/shop/address/add",
+      `${baseURL}/api/shop/address/add`,
       formData
     );
 
@@ -21,8 +29,9 @@ export const addNewAddress = createAsyncThunk(
 export const fetchAllAddresses = createAsyncThunk(
   "/addresses/fetchAllAddresses",
   async (userId) => {
+    const baseURL = getBaseURL();
     const response = await axios.get(
-      `http://localhost:5000/api/shop/address/get/${userId}`
+      `${baseURL}/api/shop/address/get/${userId}`
     );
 
     return response.data;
@@ -32,8 +41,9 @@ export const fetchAllAddresses = createAsyncThunk(
 export const editaAddress = createAsyncThunk(
   "/addresses/editaAddress",
   async ({ userId, addressId, formData }) => {
+    const baseURL = getBaseURL();
     const response = await axios.put(
-      `http://localhost:5000/api/shop/address/update/${userId}/${addressId}`,
+      `${baseURL}/api/shop/address/update/${userId}/${addressId}`,
       formData
     );
 
@@ -44,8 +54,9 @@ export const editaAddress = createAsyncThunk(
 export const deleteAddress = createAsyncThunk(
   "/addresses/deleteAddress",
   async ({ userId, addressId }) => {
+    const baseURL = getBaseURL();
     const response = await axios.delete(
-      `http://localhost:5000/api/shop/address/delete/${userId}/${addressId}`
+      `${baseURL}/api/shop/address/delete/${userId}/${addressId}`
     );
 
     return response.data;
